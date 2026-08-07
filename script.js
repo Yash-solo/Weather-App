@@ -2,13 +2,15 @@ import { currencyToCountry } from "./country.js";
 const BaseURL = "https://api.openweathermap.org/data/2.5/weather?q=Ratangarh,IN&appid=33655f13c3abfc64849c907b045bb0d7";
 const weatherContainer = document.querySelector('.weather-container');
 let weatCont = document.querySelector(".dropDown");
-const EnterBtn = document.querySelector('.submit')
+const EnterBtn = document.querySelector('.submit');
 
 //start menu 
+document.querySelector('#cityName').value = "";
 
-startMenu();
+startMenuDrop();
 
-function startMenu() {
+
+function startMenuDrop() {
     for (let country in currencyToCountry) {
         let newOption = document.createElement('option');
         newOption.innerHTML = `${country}`
@@ -27,12 +29,12 @@ EnterBtn.addEventListener('click', async() => {
     let cityVal = document.querySelector('#cityName');
     localStorage.setItem('weatherCity',JSON.stringify({"city":cityVal.value,"country":country}))
     let Tval = JSON.parse(localStorage.getItem("weatherCity"));
-
+    
     weatherContainer.classList.add('afterEnter');
-
+    
     let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${Tval.city},${Tval.country}&appid=33655f13c3abfc64849c907b045bb0d7`);
     let data = await response.json();
-
+    
     let weatherImg = "";
     let weatherID = data.weather[0].id;
     
@@ -74,6 +76,7 @@ EnterBtn.addEventListener('click', async() => {
             <h2>City:-${Tval.city}</h2>
             <h2>Country:-${Tval.country}</h2>
         </div>
-    </div>`;
-
-})
+    </div>
+    `;
+        
+});
